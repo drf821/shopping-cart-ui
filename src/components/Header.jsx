@@ -1,15 +1,24 @@
+import { useState } from 'react';
 import {useCart} from '../context/CartContext';
 import { FaShoppingCart } from 'react-icons/fa';
 
 const Header = () => {
+    const [showDropdown, setShowDropdown] = useState(false);
+
     const {cart} = useCart();
     const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
+    const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
+
     return (
         <header className='bg-white shadow-md p-4 flex justify-between items-center'>
-            <h1 class="text-2xl font-bold text-blue-600">
+            <h1 className="text-2xl font-bold text-blue-600">
                 ShopMate
             </h1>
             <div className="relative">
+
+                <button 
+                    className='cursor-pointer'
+                    onClick ={()=> setShowDropdown(!showDropdown)}>
                 <FaShoppingCart className='text-2xl text-gray-700'/>
                 {
                     itemCount > 0 && (
@@ -18,6 +27,30 @@ const Header = () => {
                         </span>
                     )
                 }
+                </button>
+                {showDropdown && (
+                    <div className="absolute right-0 mt-2 w-80 bg-white border rounded shadow-lg z-50">
+                        <div className="p-4">
+                            <h2 className="font-sembold text-lg mb-2">Cart Items</h2>
+                            {cart.length === 0 ? ( <p className="text-gray-500 text-sm">Your cart is empty</p>
+                            ) :(<>
+                                <ul className='max-h-60 overflow-y-auto divide-y divided-gray-200'>{cart.map((item) => (
+                                <li key={item.id} className="flex justify-between items-center py-2">
+                                    <div>
+                                        <p className="font-semibold">{item.name}</p>
+                                        <p class="text-sm text-gray-500">{item.qty} x ${item.price}</p>
+                                    </div>
+                                </li>
+                            ))}
+                                </ul>
+                                <div className="mt-4 flex justify-between font-semibold">
+                                    <span>Total:</span>
+                                    <span>{total}</span>
+                                </div>
+                                </>)}
+                        </div>
+                    </div>
+                )}
             </div>
         </header>
       );
