@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
+import data from "../data/db.json";
 
 const ProductContext = createContext();
 
@@ -11,10 +11,10 @@ export function ProductProvider({children}){
   useEffect(() =>{
     const fetchProducts = async () =>{
       try{
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/products`);        if(!res.ok) throw new Error('Failed to fetch products');
-        const data = await res.json();
+        //const res = await fetch(`${import.meta.env.VITE_API_URL}/products`);        if(!res.ok) throw new Error('Failed to fetch products');
+        //const data = //await res.json();
         console.log(data);
-        setProducts(data);
+        setProducts(data.products);
       }
       catch(err){
         setError(err.message);

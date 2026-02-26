@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {useCart} from '../context/CartContext';
+import { useCart } from '../context/CartContext';
 import { FaShoppingCart } from 'react-icons/fa';
 
 const Header = () => {
